@@ -1,5 +1,7 @@
 #include "stdafx.h"
 #include <string>
+#include <Windows.h>
+#include <Commdlg.h>
 
 static TCHAR szWindowClass[] = _T( "CWindow" );
 
@@ -156,8 +158,22 @@ void CWindow::StartNewGame() {
 }
 
 void CWindow::LoadFile() {
+	TCHAR szFilters[] = _T("Race map files (*.rcmap)\0");
+	TCHAR szFilePathName[_MAX_PATH] = _T("");
+	OPENFILENAME ofn = {0};
+	ofn.lStructSize = sizeof(OPENFILENAME);
+	ofn.hwndOwner = GetHandle();
+	ofn.lpstrFilter = szFilters;
+	ofn.lpstrFile = szFilePathName; 
+	ofn.lpstrDefExt = _T("rcmap");
+	ofn.nMaxFile = _MAX_PATH;
+	ofn.lpstrTitle = _T("Load Map");
+	ofn.Flags = OFN_FILEMUSTEXIST;
+
+	::GetOpenFileName(&ofn);
+
     std::ifstream fin;
-    fin.open("game.save");
+    fin.open(ofn.lpstrFile);
 
     if( fin.is_open() ) {
         fin >> sizeX >> sizeY;
