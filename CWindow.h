@@ -24,11 +24,8 @@ public:
     CWindow();
     ~CWindow();
 
-    // Зарегистрировать класс окна
     static bool RegisterClass();
-    // Создать экземпляр окна
     bool Create();
-    // Показать окно
     void Show( int cmdShow );
 	HWND GetHandle();
     HWND GetHandleDialog();
@@ -42,10 +39,9 @@ protected:
 	void SaveFile();
     void OnPaint();
     void OnClick( LPARAM lParam );
-	LRESULT OnCtlColorEdit( HDC dc, HWND hEdit, CWindow *win );
 
 private:
-    HWND handle; // хэндл окна
+    HWND handle;
     HWND handleDlg;
     std::vector< std::vector<int> > numbers;
 	std::map<HWND, int> iEdit, jEdit;
@@ -53,12 +49,11 @@ private:
     void LoadFile();
     size_t sizeX;
 	size_t sizeY;
-    size_t newSize;
     bool loadedFromFile;
-	HBRUSH whiteBrush, greyBrush, blackBrush;
+	std::vector<HBRUSH> brushes;
+	HBRUSH backgroundBrush;
 	int qWidth, qHeight;
 
     static INT_PTR __stdcall dialogProc( HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lParam );
-
     static LRESULT __stdcall windowProc( HWND handle, UINT message, WPARAM wParam, LPARAM lParam );
 };

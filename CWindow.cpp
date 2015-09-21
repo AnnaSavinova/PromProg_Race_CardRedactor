@@ -48,9 +48,12 @@ void CWindow::Initialize() {
 }
 
 CWindow::CWindow() {
-	whiteBrush = ::CreateSolidBrush( RGB( 0xFF, 0xFF, 0xFF) );
-	greyBrush = ::CreateSolidBrush( RGB( 0xD0, 0xD0, 0xD0) );
-	blackBrush = ::CreateSolidBrush( RGB( 0x0, 0x0, 0x0) );
+	backgroundBrush = ::CreateSolidBrush( RGB( 0xFF, 0xFF, 0xFF ) );
+
+	brushes.push_back( ::CreateSolidBrush( RGB( 0x0, 0x0, 0xFF ) ) );
+	brushes.push_back( ::CreateSolidBrush( RGB( 0x0, 0xFF, 0x0 ) ) );
+	brushes.push_back( ::CreateSolidBrush( RGB( 0xFF, 0x0, 0x0 ) ) );
+
     sizeX = 8;
 	sizeY = 6;
 	loadedFromFile = false;
@@ -115,15 +118,9 @@ void CWindow::OnPaint() {
 	HBITMAP backbuffer = ::CreateCompatibleBitmap( hdc, width, height );
 	::SelectObject( backbuffDC, backbuffer );
 
-    COLORREF back = RGB( 0, 0, 0 );
-	HBRUSH backgroundHBrush = ::CreateSolidBrush( back );
-	::FillRect( backbuffDC, &rect, backgroundHBrush );
 
-    HPEN hpen = ::CreatePen(PS_SOLID, 1, back); 
-    HGDIOBJ hpenOld = SelectObject( backbuffDC, hpen ); 
+	::FillRect( backbuffDC, &rect, backgroundBrush );
 
-	::SelectObject( backbuffDC, whiteBrush );
-	::SetPolyFillMode( backbuffDC, WINDING );
     qWidth = ( width - 5 ) / sizeX + 1;
     qHeight = ( height - 5 ) / sizeY + 1;
 
@@ -137,30 +134,17 @@ void CWindow::OnPaint() {
 			rect.top = i * qHeight;
 			rect.right = ( j + 1 ) * qWidth;
 			rect.bottom = ( i + 1 ) * qHeight;
-            switch ( numbers[i][j] ) {
-			case 0:
-				::SelectObject( backbuffDC, greyBrush );
-				::Rectangle( backbuffDC, rect.left, rect.top, rect.right, rect.bottom );
-				break;
-			case 1:
-				::SelectObject( backbuffDC, blackBrush );
-				::Rectangle( backbuffDC, rect.left, rect.top, rect.right, rect.bottom );					break;
-			default:
-				::SelectObject( backbuffDC, whiteBrush );
-				::Rectangle( backbuffDC, rect.left, rect.top, rect.right, rect.bottom );
-			}
+
+			::SelectObject( backbuffDC, brushes[numbers[i][j]] );
+			::Rectangle( backbuffDC, rect.left, rect.top, rect.right, rect.bottom );
         }
     }
 	::BitBlt( hdc, 0, 0, width, height, backbuffDC, 0, 0, SRCCOPY );
-
-    ::SelectObject( backbuffDC, hpenOld );
-    ::DeleteObject( hpen );
 
 	::DeleteObject( backbuffer );
 	::DeleteDC( backbuffDC );
 
 	::EndPaint( handle, &ps ); 
-	::DeleteObject( backgroundHBrush );
 }
 
 void CWindow::StartNewGame() {
@@ -200,15 +184,10 @@ void CWindow::SaveFile() {
 }
 
 void CWindow::OnClose() {
-	switch (MessageBox(handle, L"Вы уверены?", L"Выйти из игры", MB_YESNO | MB_ICONQUESTION)) {
+	switch (MessageBox(handle, L"Вы уверены?", L"Выйти из редактора", MB_YESNO | MB_ICONQUESTION)) {
 	case IDNO:
 		return;
 	case IDYES:
-		//switch( MessageBox( handle, L"И это после всего, что между нами было?!", L"Выйти из игры", MB_YESNO | MB_ICONWARNING ) ) {
-		//case IDNO:
-		//	return;   
-		//case IDYES:
-		//SaveFile();
 		::PostQuitMessage(0);
 		break;
 	}
@@ -255,18 +234,14 @@ INT_PTR __stdcall CWindow::dialogProc( HWND hwndDlg, UINT uMsg, WPARAM wParam, L
     case WM_COMMAND:
         switch( LOWORD( wParam ) ) {
         case IDOK:
-			int _sizeX, _sizeY, _blocksNum;
-			char bufferX[10], bufferY[10], bufferBlock[10];
-            GetWindowText( ::GetDlgItem( hwndDlg, IDC_EDIT_HEIGHT ), reinterpret_cast<LPWSTR>( bufferX ), sizeof( bufferX ) );
-            _sizeX = atoi( bufferX );
-            GetWindowText( ::GetDlgItem( hwndDlg, IDC_EDIT_WIDTH ), reinterpret_cast<LPWSTR>( bufferY ), sizeof( bufferY ) );
-            _sizeY = atoi( bufferY );
-            GetWindowText( ::GetDlgItem( hwndDlg, IDC_EDIT_BLOCKS ), reinterpret_cast<LPWSTR>( bufferBlock ), sizeof( bufferBlock ) );
-            _blocksNum = atoi( bufferBlock );
-            switch( ::MessageBox( that->handle, L"Начать новую игру?", L"Новая игра", MB_YESNO | MB_ICONWARNING ) ) {
+			int newSizeX, newSizeY;
+            newSizeY = ::GetDlgItemInt( hwndDlg, IDC_EDIT_HEIGHT, NULL, false );
+            newSizeX = ::GetDlgItemInt( hwndDlg, IDC_EDIT_WIDTH,  NULL, false );
+
+            switch( ::MessageBox( that->handle, L"Создать новую карту?", L"Новая карта", MB_YESNO | MB_ICONWARNING ) ) {
             case IDYES:
-		        that->sizeX = _sizeX;
-				that->sizeY = _sizeY;
+		        that->sizeX = newSizeX;
+				that->sizeY = newSizeY;
 				that->loadedFromFile = false;
                 that->StartNewGame();
 				break;
@@ -287,9 +262,6 @@ INT_PTR __stdcall CWindow::dialogProc( HWND hwndDlg, UINT uMsg, WPARAM wParam, L
     return TRUE;
 }
 
-LRESULT CWindow::OnCtlColorEdit( HDC dc, HWND hEdit, CWindow *win ) {
-	return ( LRESULT )CreateSolidBrush( RGB( 138, 255, 92 ) );
-}
 
 void CWindow::OnClick( LPARAM lParam ) {
     RECT rect;
@@ -302,7 +274,7 @@ void CWindow::OnClick( LPARAM lParam ) {
     int yPos = GET_Y_LPARAM(lParam); 
     int mouseI = yPos / qHeight;
     int mouseJ = xPos / qWidth;
-	numbers[mouseI][mouseJ] = (numbers[mouseI][mouseJ] + 1) % 3; 
+	numbers[mouseI][mouseJ] = (numbers[mouseI][mouseJ] + 1) % brushes.size(); 
 	
     ::GetClientRect( handle, &rect );
     ::InvalidateRect( handle, &rect, TRUE );  
@@ -338,8 +310,6 @@ LRESULT __stdcall CWindow::windowProc( HWND hWnd, UINT message, WPARAM wParam, L
     case WM_LBUTTONDOWN:
         that->OnClick( lParam );
         return 0;
-	case WM_CTLCOLOREDIT:
-		return that->OnCtlColorEdit((HDC)wParam, (HWND)lParam, that);
     default:
         return ::DefWindowProc( hWnd, message, wParam, lParam );
     }
