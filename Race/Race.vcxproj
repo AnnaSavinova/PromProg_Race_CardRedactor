@@ -75,7 +75,6 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="CWindow.h" />
-    <ClInclude Include="Race.h" />
     <ClInclude Include="Resource.h" />
     <ClInclude Include="stdafx.h" />
   </ItemGroup>

@@ -3,7 +3,7 @@
 #include <Windows.h>
 #include <Commdlg.h>
 
-static TCHAR szWindowClass[] = _T( "CWindow" );
+static LPCWSTR szWindowClass = L"CWindow";
 
 HWND CWindow::GetHandle()
 {
@@ -18,7 +18,7 @@ HWND CWindow::GetHandleDialog()
 bool CWindow::Create()
 {
     handle = ::CreateWindow( szWindowClass, L"Редактор карт", WS_OVERLAPPEDWINDOW | WS_CLIPCHILDREN | WS_EX_LAYERED,
-        CW_USEDEFAULT, CW_USEDEFAULT, 300, 300, NULL, NULL, ::GetModuleHandle( 0 ), this );
+        CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT, NULL, NULL, ::GetModuleHandle( 0 ), this );
     ::UpdateWindow( handle );
     return ( handle != 0 );
 }
@@ -39,18 +39,8 @@ void CWindow::Initialize()
     int width = rect.right - rect.left;
     int height = rect.bottom - rect.top;
 
-    qWidth = ( width - 5 ) / ( sizeX ) +1;
-    qHeight = ( height - 5 ) / ( sizeY ) +1;
-
-    for( size_t i = 0; i < sizeY; i++ ) {
-        for( size_t j = 0; j < sizeX; j++ ) {
-            RECT rect;
-            rect.left = j * qWidth;
-            rect.top = i * qHeight;
-            rect.right = ( j + 1 ) * qWidth;
-            rect.bottom = ( i + 1 ) * qHeight;
-        }
-    }
+    qWidth = ( width - 5 ) / ( sizeX ) + 1;
+    qHeight = ( height - 5 ) / ( sizeY ) + 1;
 }
 
 CWindow::CWindow()
@@ -111,7 +101,6 @@ void CWindow::OnSize( LPARAM lParam )
     int windowHeight = windowRect.bottom - windowRect.top;
     int diff = ( windowHeight - height );
     ::SetWindowPos( handle, NULL, windowRect.left, windowRect.top, windowWidth, diff + windowWidth * sizeY / sizeX, 0 );
-    ::GetClientRect( handle, &rect );
     ::InvalidateRect( handle, &rect, TRUE );
 }
 
@@ -334,7 +323,6 @@ void CWindow::OnClick( LPARAM lParam )
     int mouseJ = xPos / qWidth;
     numbers[mouseI][mouseJ] = ( numbers[mouseI][mouseJ] + 1 ) % brushes.size();
 
-    ::GetClientRect( handle, &rect );
     ::InvalidateRect( handle, &rect, TRUE );
 }
 

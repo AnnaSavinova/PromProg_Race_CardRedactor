@@ -15,10 +15,6 @@
 #include <time.h>
 #include <fstream>
 
-#define FILL 1
-#define EMPTY 2
-#define NONE 0
-
 class CWindow {
 public:
     CWindow();
