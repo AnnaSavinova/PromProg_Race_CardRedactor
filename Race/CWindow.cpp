@@ -1,6 +1,6 @@
 #include "stdafx.h"
 #include <string>
-#include <Windows.h>
+#include <fstream>
 #include <Commdlg.h>
 
 static LPCWSTR szWindowClass = L"CWindow";
@@ -159,15 +159,15 @@ void CWindow::StartNewGame()
 
 void CWindow::LoadFile()
 {
-    TCHAR szFilePathName[_MAX_PATH] = _T( "" );
+    wchar_t szFilePathName[_MAX_PATH] = L"";
     OPENFILENAME ofn = { 0 };
     ofn.lStructSize = sizeof( OPENFILENAME );
     ofn.hwndOwner = GetHandle();
     ofn.lpstrFilter = L"Race map files (*.rcmap)\0*.rcmap\0All files (*.*)\0*.*\0";
     ofn.lpstrFile = szFilePathName;
-    ofn.lpstrDefExt = _T( "rcmap" );
+    ofn.lpstrDefExt = L"rcmap";
     ofn.nMaxFile = _MAX_PATH;
-    ofn.lpstrTitle = _T( "Load Map" );
+    ofn.lpstrTitle = L"Load Map";
     ofn.Flags = OFN_FILEMUSTEXIST;
 
     ::GetOpenFileName( &ofn );
@@ -197,15 +197,15 @@ void CWindow::LoadFile()
 
 void CWindow::SaveFile()
 {
-    TCHAR szFilePathName[_MAX_PATH] = _T( "" );
+    wchar_t szFilePathName[_MAX_PATH] = L"";
     OPENFILENAME ofn = { 0 };
     ofn.lStructSize = sizeof( OPENFILENAME );
     ofn.hwndOwner = GetHandle();
     ofn.lpstrFilter = L"Race map files (*.rcmap)\0*.rcmap\0All files (*.*)\0*.*\0";
     ofn.lpstrFile = szFilePathName;
-    ofn.lpstrDefExt = _T( "rcmap" );
+    ofn.lpstrDefExt = L"rcmap";
     ofn.nMaxFile = _MAX_PATH;
-    ofn.lpstrTitle = _T( "Save Map" );
+    ofn.lpstrTitle = L"Save Map";
     ofn.Flags = OFN_OVERWRITEPROMPT;
 
     ::GetSaveFileName( &ofn );

@@ -1,19 +1,7 @@
 #pragma once
 
-#include <windows.h>
-#include <windowsx.h>
-#include <Commctrl.h>
-#include <stdlib.h>
-#include <string.h>
-#include <tchar.h>
-#include <random>
-#include <iostream>
-#include <chrono>
 #include "resource.h"
 #include <vector>
-#include <map>
-#include <time.h>
-#include <fstream>
 
 class CWindow {
 public:
@@ -40,7 +28,6 @@ private:
     HWND handle;
     HWND handleDlg;
     std::vector< std::vector<int> > numbers;
-    std::map<HWND, int> iEdit, jEdit;
     void Initialize();
     void LoadFile();
     size_t sizeX;
