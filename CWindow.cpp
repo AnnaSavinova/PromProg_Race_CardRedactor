@@ -158,12 +158,11 @@ void CWindow::StartNewGame() {
 }
 
 void CWindow::LoadFile() {
-	TCHAR szFilters[] = _T("Race map files (*.rcmap)\0");
 	TCHAR szFilePathName[_MAX_PATH] = _T("");
 	OPENFILENAME ofn = {0};
 	ofn.lStructSize = sizeof(OPENFILENAME);
 	ofn.hwndOwner = GetHandle();
-	ofn.lpstrFilter = szFilters;
+	ofn.lpstrFilter = L"Race map files (*.rcmap)\0*.rcmap\0All files (*.*)\0*.*\0";
 	ofn.lpstrFile = szFilePathName; 
 	ofn.lpstrDefExt = _T("rcmap");
 	ofn.nMaxFile = _MAX_PATH;
