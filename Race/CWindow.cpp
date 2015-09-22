@@ -195,7 +195,33 @@ void CWindow::LoadFile() {
 }
 
 void CWindow::SaveFile() {
-    //TODO
+    TCHAR szFilePathName[_MAX_PATH] = _T("");
+	OPENFILENAME ofn = {0};
+	ofn.lStructSize = sizeof(OPENFILENAME);
+	ofn.hwndOwner = GetHandle();
+	ofn.lpstrFilter = L"Race map files (*.rcmap)\0*.rcmap\0All files (*.*)\0*.*\0";
+	ofn.lpstrFile = szFilePathName; 
+	ofn.lpstrDefExt = _T("rcmap");
+	ofn.nMaxFile = _MAX_PATH;
+	ofn.lpstrTitle = _T("Save Map");
+	ofn.Flags = OFN_OVERWRITEPROMPT;
+
+	::GetSaveFileName(&ofn);
+
+    std::ofstream fout;
+    fout.open(ofn.lpstrFile);
+    if( fout.is_open() ) {
+        fout << sizeX << " " << sizeY;
+		fout << std::endl;
+
+        for( size_t i = 0; i < sizeY; i++ ) {
+			for( size_t j = 0; j < sizeX; j++ ) {
+                fout << numbers[i][j] << " ";
+            }
+			fout << std::endl;
+        }
+    }
+    fout.close();
 }
 
 void CWindow::OnClose() {
