@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 
 #include "resource.h"
 #include <vector>
@@ -17,7 +17,7 @@ public:
 
 protected:
     void OnDestroy();
-    void OnSize( LPARAM lparam );
+    void OnSize( LPARAM );
     void OnCommand( HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam );
     void OnClose();
     void SaveFile();
@@ -30,8 +30,9 @@ private:
     std::vector< std::vector<int> > numbers;
     void Initialize();
     void LoadFile();
-    size_t sizeX;
-    size_t sizeY;
+    int sizeX;
+    int sizeY;
+    int cellSize;
     bool loadedFromFile;
     std::vector<HBRUSH> brushes;
     HBRUSH backgroundBrush;
