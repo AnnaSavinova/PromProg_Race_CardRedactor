@@ -17,7 +17,7 @@ public:
 
 protected:
     void OnDestroy();
-    void OnSize( LPARAM );
+    void OnSize();
     void OnCommand( HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam );
     void OnClose();
     void SaveFile();

@@ -33,7 +33,8 @@ void CWindow::Initialize()
                 numbers[i][j] = 0;
             }
         }
-    }    
+    }
+    OnSize();
 }
 
 CWindow::CWindow()
@@ -83,7 +84,7 @@ void CWindow::OnDestroy()
     ::PostQuitMessage( 0 );
 }
 
-void CWindow::OnSize( LPARAM lParam )
+void CWindow::OnSize()
 {
     RECT rect;
     RECT windowRect;
@@ -337,7 +338,7 @@ LRESULT __stdcall CWindow::windowProc( HWND hWnd, UINT message, WPARAM wParam, L
         case WM_ERASEBKGND:
             return 1;
         case WM_SIZE:
-            that->OnSize( lParam );
+            that->OnSize();
             return 0;
         case WM_DESTROY:
             that->OnDestroy();
