@@ -1,4 +1,4 @@
-#include "stdafx.h"
+п»ї#include "stdafx.h"
 #include <string>
 #include <fstream>
 #include <Commdlg.h>
@@ -17,7 +17,7 @@ HWND CWindow::GetHandleDialog()
 
 bool CWindow::Create()
 {
-    handle = ::CreateWindow( szWindowClass, L"Редактор карт", WS_OVERLAPPEDWINDOW | WS_CLIPCHILDREN | WS_EX_LAYERED,
+    handle = ::CreateWindow( szWindowClass, L"Р РµРґР°РєС‚РѕСЂ РєР°СЂС‚", WS_OVERLAPPEDWINDOW | WS_CLIPCHILDREN | WS_EX_LAYERED,
         CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT, NULL, NULL, ::GetModuleHandle( 0 ), this );
     ::UpdateWindow( handle );
     return ( handle != 0 );
@@ -27,20 +27,14 @@ void CWindow::Initialize()
 {
     if( !loadedFromFile ) {
         numbers = std::vector< std::vector<int> >( sizeY );
-        for( size_t i = 0; i < sizeY; i++ ) {
+        for( int i = 0; i < sizeY; i++ ) {
             numbers[i].resize( sizeX );
-            for( size_t j = 0; j < sizeX; j++ ) {
+            for( int j = 0; j < sizeX; j++ ) {
                 numbers[i][j] = 0;
             }
         }
     }
-    RECT rect;
-    ::GetClientRect( handle, &rect );
-    int width = rect.right - rect.left;
-    int height = rect.bottom - rect.top;
-
-    qWidth = ( width - 5 ) / ( sizeX ) + 1;
-    qHeight = ( height - 5 ) / ( sizeY ) + 1;
+    OnSize();
 }
 
 CWindow::CWindow()
@@ -56,6 +50,7 @@ CWindow::CWindow()
     loadedFromFile = false;
     StartNewGame();
 }
+
 CWindow::~CWindow() {}
 
 bool CWindow::RegisterClass()
@@ -89,7 +84,7 @@ void CWindow::OnDestroy()
     ::PostQuitMessage( 0 );
 }
 
-void CWindow::OnSize( LPARAM lParam )
+void CWindow::OnSize()
 {
     RECT rect;
     RECT windowRect;
@@ -99,8 +94,12 @@ void CWindow::OnSize( LPARAM lParam )
     int height = rect.bottom - rect.top;
     int windowWidth = windowRect.right - windowRect.left;
     int windowHeight = windowRect.bottom - windowRect.top;
-    int diff = ( windowHeight - height );
-    ::SetWindowPos( handle, NULL, windowRect.left, windowRect.top, windowWidth, diff + windowWidth * sizeY / sizeX, 0 );
+    int diffHeight = windowHeight - height;
+    int diffWidth = windowWidth - width;
+    if( ( height / sizeY ) > 30 ) {
+        cellSize = height / sizeY;
+    }
+    ::SetWindowPos( handle, NULL, windowRect.left, windowRect.top, diffWidth + cellSize * sizeX, diffHeight + cellSize * sizeY, NULL );
     ::InvalidateRect( handle, &rect, TRUE );
 }
 
@@ -117,24 +116,18 @@ void CWindow::OnPaint()
 
     HDC backbuffDC = ::CreateCompatibleDC( hdc );
     HBITMAP backbuffer = ::CreateCompatibleBitmap( hdc, width, height );
-    ::SelectObject( backbuffDC, backbuffer );
+    HGDIOBJ oldBitmap = ::SelectObject( backbuffDC, backbuffer );
 
+    ::SelectObject( backbuffDC, backgroundBrush );
+    ::Rectangle( backbuffDC, 0, 0, width, height );
 
-    ::FillRect( backbuffDC, &rect, backgroundBrush );
-
-    qWidth = ( width - 5 ) / sizeX + 1;
-    qHeight = ( height - 5 ) / sizeY + 1;
-
-    ::SetBkMode( backbuffDC, OPAQUE );
-    ::SetTextColor( backbuffDC, RGB( 255, 255, 255 ) );
-
-    for( size_t i = 0; i < sizeY; i++ ) {
-        for( size_t j = 0; j < sizeX; j++ ) {
+    for( int i = 0; i < sizeY; i++ ) {
+        for( int j = 0; j < sizeX; j++ ) {
             RECT rect;
-            rect.left = j * qWidth;
-            rect.top = i * qHeight;
-            rect.right = ( j + 1 ) * qWidth;
-            rect.bottom = ( i + 1 ) * qHeight;
+            rect.left = j * cellSize;
+            rect.top = i * cellSize;
+            rect.right = ( j + 1 ) * cellSize;
+            rect.bottom = ( i + 1 ) * cellSize;
 
             ::SelectObject( backbuffDC, brushes[numbers[i][j]] );
             ::Rectangle( backbuffDC, rect.left, rect.top, rect.right, rect.bottom );
@@ -142,8 +135,10 @@ void CWindow::OnPaint()
     }
     ::BitBlt( hdc, 0, 0, width, height, backbuffDC, 0, 0, SRCCOPY );
 
+    ::SelectObject( backbuffDC, oldBitmap );
     ::DeleteObject( backbuffer );
     ::DeleteDC( backbuffDC );
+    ::ReleaseDC( handle, hdc );
 
     ::EndPaint( handle, &ps );
 }
@@ -151,7 +146,6 @@ void CWindow::OnPaint()
 void CWindow::StartNewGame()
 {
     Initialize();
-    OnSize( NULL );
     RECT rect;
     ::GetClientRect( handle, &rect );
     ::InvalidateRect( handle, &rect, TRUE );
@@ -178,16 +172,15 @@ void CWindow::LoadFile()
     if( fin.is_open() ) {
         fin >> sizeX >> sizeY;
         numbers.resize( sizeY );
-        for( size_t i = 0; i < sizeY; i++ ) {
+        for( int i = 0; i < sizeY; i++ ) {
             numbers[i].resize( sizeX );
-            for( size_t j = 0; j < sizeX; j++ ) {
+            for( int j = 0; j < sizeX; j++ ) {
                 fin >> numbers[i][j];
             }
         }
 
         loadedFromFile = true;
         Initialize();
-        OnSize( NULL );
         RECT rect;
         ::GetClientRect( handle, &rect );
         ::InvalidateRect( handle, &rect, TRUE );
@@ -216,8 +209,8 @@ void CWindow::SaveFile()
         fout << sizeX << " " << sizeY;
         fout << std::endl;
 
-        for( size_t i = 0; i < sizeY; i++ ) {
-            for( size_t j = 0; j < sizeX; j++ ) {
+        for( int i = 0; i < sizeY; i++ ) {
+            for( int j = 0; j < sizeX; j++ ) {
                 fout << numbers[i][j] << " ";
             }
             fout << std::endl;
@@ -228,7 +221,7 @@ void CWindow::SaveFile()
 
 void CWindow::OnClose()
 {
-    switch( MessageBox( handle, L"Вы уверены?", L"Выйти из редактора", MB_YESNO | MB_ICONQUESTION ) ) {
+    switch( MessageBox( handle, L"Р’С‹ СѓРІРµСЂРµРЅС‹?", L"Р’С‹Р№С‚Рё РёР· СЂРµРґР°РєС‚РѕСЂР°", MB_YESNO | MB_ICONQUESTION ) ) {
         case IDNO:
             return;
         case IDYES:
@@ -254,8 +247,8 @@ void CWindow::OnCommand( HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam )
                 LoadFile();
                 break;
             case ID_CLEAR:
-                for( size_t i = 0; i < sizeY; i++ ) {
-                    for( size_t j = 0; j < sizeX; j++ ) {
+                for( int i = 0; i < sizeY; i++ ) {
+                    for( int j = 0; j < sizeX; j++ ) {
                         numbers[i][j] = 0;
                     }
                 }
@@ -284,7 +277,7 @@ INT_PTR __stdcall CWindow::dialogProc( HWND hwndDlg, UINT uMsg, WPARAM wParam, L
                     newSizeY = ::GetDlgItemInt( hwndDlg, IDC_EDIT_HEIGHT, NULL, false );
                     newSizeX = ::GetDlgItemInt( hwndDlg, IDC_EDIT_WIDTH, NULL, false );
 
-                    switch( ::MessageBox( that->handle, L"Создать новую карту?", L"Новая карта", MB_YESNO | MB_ICONWARNING ) ) {
+                    switch( ::MessageBox( that->handle, L"РЎРѕР·РґР°С‚СЊ РЅРѕРІСѓСЋ РєР°СЂС‚Сѓ?", L"РќРѕРІР°СЏ РєР°СЂС‚Р°", MB_YESNO | MB_ICONWARNING ) ) {
                         case IDYES:
                             that->sizeX = newSizeX;
                             that->sizeY = newSizeY;
@@ -319,8 +312,8 @@ void CWindow::OnClick( LPARAM lParam )
 
     int xPos = GET_X_LPARAM( lParam );
     int yPos = GET_Y_LPARAM( lParam );
-    int mouseI = yPos / qHeight;
-    int mouseJ = xPos / qWidth;
+    int mouseI = yPos / cellSize;
+    int mouseJ = xPos / cellSize;
     numbers[mouseI][mouseJ] = ( numbers[mouseI][mouseJ] + 1 ) % brushes.size();
 
     ::InvalidateRect( handle, &rect, TRUE );
@@ -345,7 +338,7 @@ LRESULT __stdcall CWindow::windowProc( HWND hWnd, UINT message, WPARAM wParam, L
         case WM_ERASEBKGND:
             return 1;
         case WM_SIZE:
-            that->OnSize( lParam );
+            that->OnSize();
             return 0;
         case WM_DESTROY:
             that->OnDestroy();
