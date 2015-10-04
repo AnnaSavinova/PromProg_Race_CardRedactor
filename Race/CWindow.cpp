@@ -41,9 +41,13 @@ CWindow::CWindow()
 {
     backgroundBrush = ::CreateSolidBrush( RGB( 0xFF, 0xFF, 0xFF ) );
 
-    brushes.push_back( ::CreateSolidBrush( RGB( 0x0, 0x0, 0xFF ) ) );
-    brushes.push_back( ::CreateSolidBrush( RGB( 0x0, 0xFF, 0x0 ) ) );
-    brushes.push_back( ::CreateSolidBrush( RGB( 0xFF, 0x0, 0x0 ) ) );
+	HINSTANCE hInst = ::GetModuleHandle(0);
+	HBITMAP forest = ::LoadBitmap(hInst, MAKEINTRESOURCE(IDB_FOREST));
+    brushes.push_back( ::CreatePatternBrush( forest ) );
+	HBITMAP road = ::LoadBitmap(hInst, MAKEINTRESOURCE(IDB_ROAD));
+	brushes.push_back(::CreatePatternBrush(road)); 
+	HBITMAP start = ::LoadBitmap(hInst, MAKEINTRESOURCE(IDB_START));
+	brushes.push_back(::CreatePatternBrush(start));
 
     sizeX = 8;
     sizeY = 6;
