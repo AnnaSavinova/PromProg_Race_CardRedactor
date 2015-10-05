@@ -95,7 +95,15 @@
     <Image Include="..\..\Pictures\Start.bmp" />
     <Image Include="..\..\Pictures\Tree.bmp" />
     <Image Include="bitmap1.bmp" />
+    <Image Include="Exit16.bmp" />
+    <Image Include="Exit32.bmp" />
     <Image Include="icon.ico" />
+    <Image Include="New16.bmp" />
+    <Image Include="New32.bmp" />
+    <Image Include="Open16.bmp" />
+    <Image Include="Open32.bmp" />
+    <Image Include="Save16.bmp" />
+    <Image Include="Save32.bmp" />
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="toolbar.xml">

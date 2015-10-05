@@ -6,18 +6,30 @@
     <Command Name="SaveMap" Symbol="cmdSaveMap" Id="30002" LabelTitle="Сохранить">
       <Command.TooltipTitle>Сохранить карту</Command.TooltipTitle>
       <Command.TooltipDescription>Сохранить карту в файл</Command.TooltipDescription>
+      <Command.LargeImages>
+        <Image Source="Save32.bmp"/>
+      </Command.LargeImages>
     </Command>
     <Command Name="LoadMap" Symbol="cmdLoadMap" Id="30003" LabelTitle="Загрузить">
       <Command.TooltipTitle>Загрузить карту</Command.TooltipTitle>
       <Command.TooltipDescription>Загрузить карту из файла</Command.TooltipDescription>
+      <Command.LargeImages>
+        <Image Source="Open32.bmp"/>
+      </Command.LargeImages>
     </Command>
     <Command Name="NewMap" Symbol="cmdNewMap" Id="30004" LabelTitle="Создать">
       <Command.TooltipTitle>Создать новую карту</Command.TooltipTitle>
       <Command.TooltipDescription>Создать новую карту</Command.TooltipDescription>
+      <Command.LargeImages>
+        <Image Source="New32.bmp"/>
+      </Command.LargeImages>
     </Command>
     <Command Name="Exit" Symbol="cmdExit" Id="30010" LabelTitle="Выход">
       <Command.TooltipTitle>Выйти из редактора</Command.TooltipTitle>
       <Command.TooltipDescription>Выйти из редактора</Command.TooltipDescription>
+      <Command.LargeImages>
+        <Image Source="Exit32.bmp"/>
+      </Command.LargeImages>
     </Command>
   
   </Application.Commands>

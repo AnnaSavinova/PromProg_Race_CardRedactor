@@ -1,0 +1,87 @@
+// ******************************************************************************
+// * This is an automatically generated file containing the ribbon resource for *
+// * your application.                                                          *
+// ******************************************************************************
+
+#include ".\toolbar.h"
+
+STRINGTABLE 
+BEGIN
+    cmdTabFile_LabelTitle_RESID L"\x0424\x0430\x0439\x043b" /* LabelTitle cmdTabFile_LabelTitle_RESID: (null) */
+END
+
+STRINGTABLE 
+BEGIN
+    cmdGroupMain_LabelTitle_RESID L"\x0424\x0430\x0439\x043b" /* LabelTitle cmdGroupMain_LabelTitle_RESID: (null) */
+END
+
+STRINGTABLE 
+BEGIN
+    cmdSaveMap_LabelTitle_RESID L"\x0421\x043e\x0445\x0440\x0430\x043d\x0438\x0442\x044c" /* LabelTitle cmdSaveMap_LabelTitle_RESID: (null) */
+END
+
+STRINGTABLE 
+BEGIN
+    cmdSaveMap_TooltipTitle_RESID L"\x0421\x043e\x0445\x0440\x0430\x043d\x0438\x0442\x044c \x043a\x0430\x0440\x0442\x0443" /* TooltipTitle cmdSaveMap_TooltipTitle_RESID: (null) */
+END
+
+STRINGTABLE 
+BEGIN
+    cmdSaveMap_TooltipDescription_RESID L"\x0421\x043e\x0445\x0440\x0430\x043d\x0438\x0442\x044c \x043a\x0430\x0440\x0442\x0443 \x0432 \x0444\x0430\x0439\x043b" /* TooltipDescription cmdSaveMap_TooltipDescription_RESID: (null) */
+END
+
+cmdSaveMap_LargeImages_RESID    BITMAP    "Save32.bmp" /* LargeImages cmdSaveMap_LargeImages_RESID: (null) */
+STRINGTABLE 
+BEGIN
+    cmdLoadMap_LabelTitle_RESID L"\x0417\x0430\x0433\x0440\x0443\x0437\x0438\x0442\x044c" /* LabelTitle cmdLoadMap_LabelTitle_RESID: (null) */
+END
+
+STRINGTABLE 
+BEGIN
+    cmdLoadMap_TooltipTitle_RESID L"\x0417\x0430\x0433\x0440\x0443\x0437\x0438\x0442\x044c \x043a\x0430\x0440\x0442\x0443" /* TooltipTitle cmdLoadMap_TooltipTitle_RESID: (null) */
+END
+
+STRINGTABLE 
+BEGIN
+    cmdLoadMap_TooltipDescription_RESID L"\x0417\x0430\x0433\x0440\x0443\x0437\x0438\x0442\x044c \x043a\x0430\x0440\x0442\x0443 \x0438\x0437 \x0444\x0430\x0439\x043b\x0430" /* TooltipDescription cmdLoadMap_TooltipDescription_RESID: (null) */
+END
+
+cmdLoadMap_LargeImages_RESID    BITMAP    "Open32.bmp" /* LargeImages cmdLoadMap_LargeImages_RESID: (null) */
+STRINGTABLE 
+BEGIN
+    cmdNewMap_LabelTitle_RESID L"\x0421\x043e\x0437\x0434\x0430\x0442\x044c" /* LabelTitle cmdNewMap_LabelTitle_RESID: (null) */
+END
+
+STRINGTABLE 
+BEGIN
+    cmdNewMap_TooltipTitle_RESID L"\x0421\x043e\x0437\x0434\x0430\x0442\x044c \x043d\x043e\x0432\x0443\x044e \x043a\x0430\x0440\x0442\x0443" /* TooltipTitle cmdNewMap_TooltipTitle_RESID: (null) */
+END
+
+STRINGTABLE 
+BEGIN
+    cmdNewMap_TooltipDescription_RESID L"\x0421\x043e\x0437\x0434\x0430\x0442\x044c \x043d\x043e\x0432\x0443\x044e \x043a\x0430\x0440\x0442\x0443" /* TooltipDescription cmdNewMap_TooltipDescription_RESID: (null) */
+END
+
+cmdNewMap_LargeImages_RESID    BITMAP    "New32.bmp" /* LargeImages cmdNewMap_LargeImages_RESID: (null) */
+STRINGTABLE 
+BEGIN
+    cmdExit_LabelTitle_RESID L"\x0412\x044b\x0445\x043e\x0434" /* LabelTitle cmdExit_LabelTitle_RESID: (null) */
+END
+
+STRINGTABLE 
+BEGIN
+    cmdExit_TooltipTitle_RESID L"\x0412\x044b\x0439\x0442\x0438 \x0438\x0437 \x0440\x0435\x0434\x0430\x043a\x0442\x043e\x0440\x0430" /* TooltipTitle cmdExit_TooltipTitle_RESID: (null) */
+END
+
+STRINGTABLE 
+BEGIN
+    cmdExit_TooltipDescription_RESID L"\x0412\x044b\x0439\x0442\x0438 \x0438\x0437 \x0440\x0435\x0434\x0430\x043a\x0442\x043e\x0440\x0430" /* TooltipDescription cmdExit_TooltipDescription_RESID: (null) */
+END
+
+cmdExit_LargeImages_RESID    BITMAP    "Exit32.bmp" /* LargeImages cmdExit_LargeImages_RESID: (null) */
+STRINGTABLE 
+BEGIN
+    InternalCmd2_LabelTitle_RESID L"Label:InternalCmd2" /* LabelTitle InternalCmd2_LabelTitle_RESID: (null) */
+END
+
+APPLICATION_RIBBON    UIFILE    "toolbar.bml"
