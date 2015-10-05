@@ -7,52 +7,7 @@
 
 STRINGTABLE 
 BEGIN
-    cmdButton1_LabelTitle_RESID L"Button 1" /* LabelTitle cmdButton1_LabelTitle_RESID: (null) */
-END
-
-STRINGTABLE 
-BEGIN
-    cmdToggleButton2_LabelTitle_RESID L"ToggleButton 2" /* LabelTitle cmdToggleButton2_LabelTitle_RESID: (null) */
-END
-
-STRINGTABLE 
-BEGIN
-    cmdMRUList_LabelTitle_RESID L"MRU List" /* LabelTitle cmdMRUList_LabelTitle_RESID: (null) */
-END
-
-STRINGTABLE 
-BEGIN
-    IDC_CMD_EXIT_LabelTitle_RESID L"Exit Button" /* LabelTitle IDC_CMD_EXIT_LabelTitle_RESID: (null) */
-END
-
-STRINGTABLE 
-BEGIN
-    cmdTab1_LabelTitle_RESID L"Label:cmdTab1" /* LabelTitle cmdTab1_LabelTitle_RESID: (null) */
-END
-
-STRINGTABLE 
-BEGIN
-    cmdButton2_LabelTitle_RESID L"Label:cmdButton2" /* LabelTitle cmdButton2_LabelTitle_RESID: (null) */
-END
-
-STRINGTABLE 
-BEGIN
-    cmdButton3_LabelTitle_RESID L"Label:cmdButton3" /* LabelTitle cmdButton3_LabelTitle_RESID: (null) */
-END
-
-STRINGTABLE 
-BEGIN
-    cmdButton4_LabelTitle_RESID L"Label:cmdButton4" /* LabelTitle cmdButton4_LabelTitle_RESID: (null) */
-END
-
-STRINGTABLE 
-BEGIN
-    cmdToggleButton1_LabelTitle_RESID L"Label:cmdToggleButton1" /* LabelTitle cmdToggleButton1_LabelTitle_RESID: (null) */
-END
-
-STRINGTABLE 
-BEGIN
-    cmdButton5_LabelTitle_RESID L"Label:cmdButton5" /* LabelTitle cmdButton5_LabelTitle_RESID: (null) */
+    InternalCmd2_LabelTitle_RESID L"Label:InternalCmd2" /* LabelTitle InternalCmd2_LabelTitle_RESID: (null) */
 END
 
 APPLICATION_RIBBON    UIFILE    "toolbar.bml"

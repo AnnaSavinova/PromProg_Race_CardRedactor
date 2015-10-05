@@ -1,9 +1,15 @@
 ﻿#include "stdafx.h"
+#include <atlbase.h>
 
+CComModule _Module;
 
 int __stdcall WinMain( HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow )
 {
-    CWindow win;
+	CoInitialize(NULL);
+	UNREFERENCED_PARAMETER(hPrevInstance);
+	UNREFERENCED_PARAMETER(lpCmdLine);
+	
+	CWindow win;
     win.RegisterClass();
     win.Create();
     win.Show( nCmdShow );
@@ -17,6 +23,8 @@ int __stdcall WinMain( HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmd
             ::DispatchMessage( &msg );
         }
     }
+
+	CoUninitialize();
 
     return ( int ) msg.wParam;
 }

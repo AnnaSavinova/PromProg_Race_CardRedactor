@@ -1,71 +1,16 @@
-<?xml version="1.0" encoding="UTF-8"?>
 <Application xmlns="http://schemas.microsoft.com/windows/2009/Ribbon">
+
   <Application.Commands>
-    <Command Name="cmdGroup1"/>
-    <Command Name="cmdGroup2"/>
-    <Command Name="cmdGroup3"/>
-    <Command Name="cmdGroup4"/>
-    <Command Name="cmdButton1">
-      <Command.LabelTitle>
-        <String Id ="210">Button 1</String>
-      </Command.LabelTitle>
-    </Command>
-    <Command Name="cmdToggleButton2">
-      <Command.LabelTitle>
-        <String Id ="270">ToggleButton 2</String>
-      </Command.LabelTitle>
-    </Command>
-    <Command Name="cmdQat"/>
-    <Command Name="cmdFileMenu"/>
-    <Command Name="cmdMRUList">
-      <Command.LabelTitle>
-        <String Id ="280">MRU List</String>
-      </Command.LabelTitle>
-    </Command>
-    <Command Name="cmdExit" Symbol="IDC_CMD_EXIT">
-      <Command.LabelTitle>
-        <String Id ="290">Exit Button</String>
-      </Command.LabelTitle>
-    </Command>
+    <Command Name="TabHome" Symbol="cmdTabHome" Id="30000" />
   </Application.Commands>
+
   <Application.Views>
     <Ribbon>
-      <Ribbon.ApplicationMenu>
-        <ApplicationMenu CommandName="cmdFileMenu">
-          <ApplicationMenu.RecentItems>
-            <RecentItems CommandName="cmdMRUList" MaxCount="1" />
-          </ApplicationMenu.RecentItems>
-          <MenuGroup Class="MajorItems">
-            <Button CommandName="cmdExit" />
-          </MenuGroup>
-        </ApplicationMenu>
-      </Ribbon.ApplicationMenu>
       <Ribbon.Tabs>
-        <Tab CommandName="cmdTab1">
-          <Group CommandName="cmdGroup1" SizeDefinition="OneButton">
-            <Button CommandName="cmdButton1" />
-          </Group>
-          <Group CommandName="cmdGroup2" SizeDefinition="TwoButtons">
-            <Button CommandName="cmdButton2" />
-            <Button CommandName="cmdButton3" />
-          </Group>
-          <Group CommandName="cmdGroup3" SizeDefinition="ThreeButtons">
-            <Button CommandName="cmdButton1" />
-            <Button CommandName="cmdButton2" />
-            <Button CommandName="cmdButton3" />
-          </Group>
-          <Group CommandName="cmdGroup4" SizeDefinition="FiveOrSixButtons">
-            <Button CommandName="cmdButton3" />
-            <Button CommandName="cmdButton4" />
-            <ToggleButton CommandName="cmdToggleButton1" />
-            <Button CommandName="cmdButton5" />
-            <ToggleButton CommandName="cmdToggleButton2" />
-          </Group>
+        <Tab CommandName="TabHome">
         </Tab>
       </Ribbon.Tabs>
-      <Ribbon.QuickAccessToolbar>
-        <QuickAccessToolbar CommandName="cmdQat" />
-      </Ribbon.QuickAccessToolbar>
     </Ribbon>
   </Application.Views>
+
 </Application>

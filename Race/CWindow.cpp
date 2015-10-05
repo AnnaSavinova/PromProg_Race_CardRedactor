@@ -2,6 +2,10 @@
 #include <string>
 #include <fstream>
 #include <Commdlg.h>
+#include <atlbase.h>
+
+extern HRESULT InitRibbon(HWND hWindowFrame);
+extern void DestroyRibbon();
 
 static LPCWSTR szWindowClass = L"CWindow";
 
@@ -19,7 +23,8 @@ bool CWindow::Create()
 {
     handle = ::CreateWindow( szWindowClass, L"Редактор карт", WS_OVERLAPPEDWINDOW | WS_CLIPCHILDREN | WS_EX_LAYERED,
         CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT, NULL, NULL, ::GetModuleHandle( 0 ), this );
-    ::UpdateWindow( handle );
+	InitRibbon(handle);
+	::UpdateWindow( handle );
     return ( handle != 0 );
 }
 
@@ -85,7 +90,8 @@ void CWindow::Show( int cmdShow )
 
 void CWindow::OnDestroy()
 {
-    ::PostQuitMessage( 0 );
+	DestroyRibbon();
+	::PostQuitMessage( 0 );
 }
 
 void CWindow::OnSize()

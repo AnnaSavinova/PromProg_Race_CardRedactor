@@ -79,14 +79,17 @@
     <ClInclude Include="CWindow.h" />
     <ClInclude Include="Resource.h" />
     <ClInclude Include="stdafx.h" />
+    <ClInclude Include="toolbar.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="CWindow.cpp" />
     <ClCompile Include="Race.cpp" />
     <ClCompile Include="stdafx.cpp" />
+    <ClCompile Include="Ribbon.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Race.rc" />
+    <ResourceCompile Include="toolbar.rc" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="..\..\Pictures\Road.bmp" />
@@ -100,6 +103,9 @@
       <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">uicc.exe toolbar.xml %(Filename).bml /header:%(Filename).h /res:%(Filename).rc</Command>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">%(Filename).bml;%(Filename).h;%(Filename).rc</Outputs>
     </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="toolbar.bml" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
