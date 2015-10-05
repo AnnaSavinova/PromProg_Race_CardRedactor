@@ -1,15 +1,58 @@
 <Application xmlns="http://schemas.microsoft.com/windows/2009/Ribbon">
 
   <Application.Commands>
-    <Command Name="TabHome" Symbol="cmdTabHome" Id="30000" />
+    <Command Name="TabFile" Symbol="cmdTabFile" Id="30000" LabelTitle="Файл" />
+    <Command Name="GroupMain" Symbol="cmdGroupMain" Id="30001" LabelTitle="Файл" />
+    <Command Name="SaveMap" Symbol="cmdSaveMap" Id="30002" LabelTitle="Сохранить">
+      <Command.TooltipTitle>Сохранить карту</Command.TooltipTitle>
+      <Command.TooltipDescription>Сохранить карту в файл</Command.TooltipDescription>
+    </Command>
+    <Command Name="LoadMap" Symbol="cmdLoadMap" Id="30003" LabelTitle="Загрузить">
+      <Command.TooltipTitle>Загрузить карту</Command.TooltipTitle>
+      <Command.TooltipDescription>Загрузить карту из файла</Command.TooltipDescription>
+    </Command>
+    <Command Name="NewMap" Symbol="cmdNewMap" Id="30004" LabelTitle="Создать">
+      <Command.TooltipTitle>Создать новую карту</Command.TooltipTitle>
+      <Command.TooltipDescription>Создать новую карту</Command.TooltipDescription>
+    </Command>
+    <Command Name="Exit" Symbol="cmdExit" Id="30010" LabelTitle="Выход">
+      <Command.TooltipTitle>Выйти из редактора</Command.TooltipTitle>
+      <Command.TooltipDescription>Выйти из редактора</Command.TooltipDescription>
+    </Command>
+  
   </Application.Commands>
 
   <Application.Views>
     <Ribbon>
+      <Ribbon.ApplicationMenu>
+      <ApplicationMenu>
+        <MenuGroup>
+          <Button CommandName='NewMap' />
+          <Button CommandName='LoadMap' />
+          <Button CommandName='SaveMap' />
+        </MenuGroup>
+        <MenuGroup>
+          <Button CommandName='Exit' />
+        </MenuGroup>
+      </ApplicationMenu>
+    </Ribbon.ApplicationMenu>
       <Ribbon.Tabs>
-        <Tab CommandName="TabHome">
+        <Tab CommandName="TabFile">
+        <Tab.ScalingPolicy>
+            <ScalingPolicy>
+              <ScalingPolicy.IdealSizes>
+                <Scale Group="GroupMain" Size="Large"/>
+              </ScalingPolicy.IdealSizes>
+              <Scale Group ="GroupMain" Size="Medium"/>
+            </ScalingPolicy>
+          </Tab.ScalingPolicy>
+          <Group CommandName="GroupMain" SizeDefinition ="ThreeButtons">
+            <Button CommandName="NewMap"/>
+            <Button CommandName="LoadMap"/>
+            <Button CommandName="SaveMap"/>
+          </Group>
         </Tab>
-      </Ribbon.Tabs>
+      </Ribbon.Tabs>    
     </Ribbon>
   </Application.Views>
 </Application>
