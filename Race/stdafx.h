@@ -13,5 +13,7 @@
 
 // C RunTime Header Files
 
-
-#include "CWindow.h"
+#include <atlbase.h>
+#include <atlcom.h>
+#include <memory>
+#include <UIRibbon.h>

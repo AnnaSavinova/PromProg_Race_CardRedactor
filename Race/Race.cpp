@@ -1,30 +1,30 @@
 ﻿#include "stdafx.h"
-#include <atlbase.h>
+#include "CWindow.h"
 
 CComModule _Module;
+CWindow MainWindow;
 
 int __stdcall WinMain( HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow )
 {
-	CoInitialize(NULL);
-	UNREFERENCED_PARAMETER(hPrevInstance);
-	UNREFERENCED_PARAMETER(lpCmdLine);
-	
-	CWindow win;
-    win.RegisterClass();
-    win.Create();
-    win.Show( nCmdShow );
-    win.StartNewGame();
+	CoInitialize( NULL );
+	UNREFERENCED_PARAMETER( hPrevInstance );
+	UNREFERENCED_PARAMETER( lpCmdLine );
 
-    HACCEL table = ::LoadAccelerators( hInstance, MAKEINTRESOURCE( IDR_ACC1 ) );
-    MSG msg;
-    while( ::GetMessage( &msg, NULL, 0, 0 ) > 0 ) {
-        if( !::IsDialogMessage( win.GetHandleDialog(), &msg ) && !::TranslateAccelerator( win.GetHandle(), table, &msg ) ) {
-            ::TranslateMessage( &msg );
-            ::DispatchMessage( &msg );
-        }
-    }
+	MainWindow.RegisterClass();
+	MainWindow.Create();
+	MainWindow.Show( nCmdShow );
+	MainWindow.StartNewGame();
+
+	HACCEL table = ::LoadAccelerators( hInstance, MAKEINTRESOURCE( IDR_ACC1 ) );
+	MSG msg;
+	while ( ::GetMessage( &msg, NULL, 0, 0 ) > 0 ) {
+		if ( !::IsDialogMessage( MainWindow.GetHandleDialog(), &msg ) && !::TranslateAccelerator( MainWindow.GetHandle(), table, &msg ) ) {
+			::TranslateMessage( &msg );
+			::DispatchMessage( &msg );
+		}
+	}
 
 	CoUninitialize();
 
-    return ( int ) msg.wParam;
+	return (int)msg.wParam;
 }

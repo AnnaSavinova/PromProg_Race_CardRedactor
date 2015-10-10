@@ -76,7 +76,6 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="Application.h" />
     <ClInclude Include="CCommandHandler.h" />
     <ClInclude Include="CWindow.h" />
     <ClInclude Include="Resource.h" />
@@ -85,7 +84,6 @@
     <ClInclude Include="toolbar.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Application.cpp" />
     <ClCompile Include="CCommandHandler.cpp" />
     <ClCompile Include="CWindow.cpp" />
     <ClCompile Include="Race.cpp" />

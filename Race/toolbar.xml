@@ -1,8 +1,8 @@
 <Application xmlns="http://schemas.microsoft.com/windows/2009/Ribbon">
 
   <Application.Commands>
-    <Command Name="TabFile" Symbol="cmdTabFile" Id="30000" LabelTitle="Файл" />
-    <Command Name="GroupMain" Symbol="cmdGroupMain" Id="30001" LabelTitle="Файл" />
+    <Command Name="TabFile" Symbol="cmdTabFile" Id="30000" LabelTitle="Карта" />
+    <Command Name="GroupMain" Symbol="cmdGroupMain" Id="30001" LabelTitle="Операции с картой" />
     <Command Name="SaveMap" Symbol="cmdSaveMap" Id="30002" LabelTitle="Сохранить">
       <Command.TooltipTitle>Сохранить карту</Command.TooltipTitle>
       <Command.TooltipDescription>Сохранить карту в файл</Command.TooltipDescription>

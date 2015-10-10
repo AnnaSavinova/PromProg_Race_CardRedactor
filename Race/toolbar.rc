@@ -7,12 +7,12 @@
 
 STRINGTABLE 
 BEGIN
-    cmdTabFile_LabelTitle_RESID L"\x0424\x0430\x0439\x043b" /* LabelTitle cmdTabFile_LabelTitle_RESID: (null) */
+    cmdTabFile_LabelTitle_RESID L"\x041a\x0430\x0440\x0442\x0430" /* LabelTitle cmdTabFile_LabelTitle_RESID: (null) */
 END
 
 STRINGTABLE 
 BEGIN
-    cmdGroupMain_LabelTitle_RESID L"\x0424\x0430\x0439\x043b" /* LabelTitle cmdGroupMain_LabelTitle_RESID: (null) */
+    cmdGroupMain_LabelTitle_RESID L"\x041e\x043f\x0435\x0440\x0430\x0446\x0438\x0438 \x0441 \x043a\x0430\x0440\x0442\x043e\x0439" /* LabelTitle cmdGroupMain_LabelTitle_RESID: (null) */
 END
 
 STRINGTABLE 

@@ -1,9 +1,9 @@
 #pragma once
-#include "Application.h"
+#include "CWindow.h"
 
 extern IUIFramework* g_pFramework;  // Reference to the Ribbon framework.
-extern CApplication* g_pApplication;  // Reference to the Application object.
+extern CWindow* g_pApplication;  // Reference to the Application object
 
-									  // Methods to facilitate the initialization and destruction of the Ribbon framework.
-HRESULT InitRibbon(HWND hWnd);
+// Methods to facilitate the initialization and destruction of the Ribbon framework.
+HRESULT InitRibbon( HWND hWnd );
 void DestroyRibbon();
