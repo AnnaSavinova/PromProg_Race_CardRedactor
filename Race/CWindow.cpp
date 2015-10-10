@@ -143,10 +143,9 @@ void CWindow::OnSize()
 	int windowHeight = windowRect.bottom - windowRect.top;
 	int diffHeight = windowHeight - height;
 	int diffWidth = windowWidth - width;
-	if ( ( height / sizeY ) > 30 ) {
-		cellSize = height / sizeY;
-	}
-	::SetWindowPos( handle, NULL, windowRect.left, windowRect.top, diffWidth + cellSize * sizeX, diffHeight + cellSize * sizeY, NULL );
+
+	cellSize = height / sizeY;
+	::SetWindowPos(handle, NULL, windowRect.left, windowRect.top, windowWidth, diffHeight + cellSize * sizeY, NULL);
 	::InvalidateRect( handle, &rect, TRUE );
 }
 
