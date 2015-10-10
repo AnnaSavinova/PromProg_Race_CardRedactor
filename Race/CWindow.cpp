@@ -37,11 +37,66 @@ void CWindow::Initialize()
 {
 	if ( !loadedFromFile ) {
 		numbers = std::vector< std::vector<int> >( sizeY );
+		
+		int border = 1;
+		int roadWidth = 3;
+
+		const int ROAD = 1;
+		const int FOREST = 0;
+		const int WALL = 2;
+
 		for ( int i = 0; i < sizeY; i++ ) {
-			numbers[i].resize( sizeX );
-			for ( int j = 0; j < sizeX; j++ ) {
-				numbers[i][j] = 0;
+			numbers[i].resize( sizeX ); // now forest is everywhere
+			
+			if ( i == border || i == sizeY - 1 - border ) { // FOREST-WALL-FOREST
+				for ( int j = border; j < sizeX - border; j++ ) {
+					numbers[i][j] = WALL;
+				}
 			}
+			else if ( ( i > border && i < border + roadWidth + 1 ) ||
+				( i > sizeY - 2 - border - roadWidth && i < sizeY - 1 - border ) ) // FOREST-WALL-ROAD-WALL-FOREST
+			{
+				// set walls
+				numbers[i][border] = numbers[i][sizeX - 1 - border] = WALL;
+
+				// set road
+				for ( int j = border + 1; j < sizeX - 1 - border; j++ ) {
+					numbers[i][j] = ROAD;
+				}
+
+			} 
+			else if ( i == border + roadWidth + 1 || i == sizeY - 2 - border - roadWidth ) { // FOREST-WALL-ROAD-WALL-ROAD-WALL-FOREST
+				// set walls
+				numbers[i][border] = numbers[i][sizeX - 1 - border] = WALL;
+
+				for ( int j = border + roadWidth + 1; j < sizeX - 1 - border - roadWidth; j++ ) {
+					numbers[i][j] = WALL;
+				}
+
+				// set road
+				for ( int j = border + 1; j < border + roadWidth + 1; j++ ) {
+					numbers[i][j] = ROAD;
+				}
+
+				for ( int j = sizeX - 1 - border - roadWidth; j < sizeX - 1 - border; j++ ) {
+					numbers[i][j] = ROAD;
+				}
+			}
+			else if ( i > border + roadWidth + 1 && i < sizeY - 2 - border - roadWidth ) { // FOREST-WALL-ROAD-WALL-FOREST-WALL-ROAD-WALL
+				// set walls
+				numbers[i][border] = numbers[i][sizeX - 1 - border] = WALL;
+				numbers[i][border + roadWidth + 1] = numbers[i][sizeX - 2 - border - roadWidth] = WALL;
+				
+				// set road
+				for ( int j = border + 1; j < border + roadWidth + 1; j++ ) {
+					numbers[i][j] = ROAD;
+				}
+
+				for ( int j = sizeX - 1 - border - roadWidth; j < sizeX - 1 - border; j++ ) {
+					numbers[i][j] = ROAD;
+				}
+			}
+
 		}
 	}
 
@@ -60,8 +115,8 @@ CWindow::CWindow()
 	HBITMAP start = ::LoadBitmap( hInst, MAKEINTRESOURCE( IDB_START ) );
 	brushes.push_back( ::CreatePatternBrush( start ) );
 
-	sizeX = 8;
-	sizeY = 6;
+	sizeX = 20;
+	sizeY = 15;
 	loadedFromFile = false;
 	m_cRef = 1;
 	m_pCommandHandler = NULL;
