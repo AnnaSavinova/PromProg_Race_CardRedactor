@@ -153,44 +153,46 @@ void CWindow::OnSize()
 
 void CWindow::OnPaint()
 {
-	PAINTSTRUCT ps;
-	HDC hdc = ::BeginPaint( handle, &ps );
+    PAINTSTRUCT ps;
+    HDC hdc = ::BeginPaint( handle, &ps );
 
-	RECT rect;
-	::GetClientRect( handle, &rect );
-	
-	UINT32 ribbonHeight = getRibbonHeight(); 
+    RECT rect;
+    ::GetClientRect( handle, &rect );
+
+	UINT32 ribbonHeight = getRibbonHeight();
 
 	int width = rect.right - rect.left;
 	int height = rect.bottom - rect.top - ribbonHeight;
 
-	HDC backbuffDC = ::CreateCompatibleDC( hdc );
-	HBITMAP backbuffer = ::CreateCompatibleBitmap( hdc, width, height + ribbonHeight );
-	HGDIOBJ oldBitmap = ::SelectObject( backbuffDC, backbuffer );
+    int leftMargin = ( width - cellSize * sizeX ) / 2;
 
-	::SelectObject( backbuffDC, backgroundBrush );
-	::Rectangle( backbuffDC, 0, 0, width, height + ribbonHeight );
+    HDC backbuffDC = ::CreateCompatibleDC( hdc );
+    HBITMAP backbuffer = ::CreateCompatibleBitmap( hdc, width, height + ribbonHeight );
+    HGDIOBJ oldBitmap = ::SelectObject( backbuffDC, backbuffer );
 
-	for ( int i = 0; i < sizeY; i++ ) {
-		for ( int j = 0; j < sizeX; j++ ) {
-			RECT rect;
-			rect.left = j * cellSize;
-			rect.top = i * cellSize;
-			rect.right = ( j + 1 ) * cellSize;
-			rect.bottom = ( i + 1 ) * cellSize;
+    ::SelectObject( backbuffDC, backgroundBrush );
+    ::Rectangle( backbuffDC, 0, 0, width, height + ribbonHeight );
 
-			::SelectObject( backbuffDC, brushes[numbers[i][j]] );
-			::Rectangle( backbuffDC, rect.left, rect.top, rect.right, rect.bottom );
-		}
-	}
-	::BitBlt( hdc, 0, ribbonHeight, width, height, backbuffDC, 0, 0, SRCCOPY );
+    for( int i = 0; i < sizeY; i++ ) {
+        for( int j = 0; j < sizeX; j++ ) {
+            RECT rect;
+            rect.left = leftMargin + j * cellSize;
+            rect.top = i * cellSize + ribbonHeight;
+            rect.right = leftMargin + ( j + 1 ) * cellSize;
+            rect.bottom = ( i + 1 ) * cellSize + ribbonHeight;
 
-	::SelectObject( backbuffDC, oldBitmap );
-	::DeleteObject( backbuffer );
-	::DeleteDC( backbuffDC );
-	::ReleaseDC( handle, hdc );
+            ::SelectObject( backbuffDC, brushes[numbers[i][j]] );
+            ::Rectangle( backbuffDC, rect.left, rect.top, rect.right, rect.bottom );
+        }
+    }
+    ::BitBlt( hdc, 0, 0, width, height + ribbonHeight, backbuffDC, 0, 0, SRCCOPY );
 
-	::EndPaint( handle, &ps );
+    ::SelectObject( backbuffDC, oldBitmap );
+    ::DeleteObject( backbuffer );
+    ::DeleteDC( backbuffDC );
+    ::ReleaseDC( handle, hdc );
+
+    ::EndPaint( handle, &ps );
 }
 
 void CWindow::StartNewGame()
@@ -359,14 +361,18 @@ void CWindow::OnClick( LPARAM lParam )
 
 	int width = rect.right - rect.left;
 	int height = rect.bottom - rect.top;
+	int mapWidth = cellSize * sizeX;
+	int leftMargin = (width - mapWidth) / 2;
 
-	int xPos = GET_X_LPARAM( lParam );
-	int yPos = GET_Y_LPARAM( lParam ) - getRibbonHeight();
-	int mouseI = yPos / cellSize;
-	int mouseJ = xPos / cellSize;
-	numbers[mouseI][mouseJ] = ( numbers[mouseI][mouseJ] + 1 ) % brushes.size();
+	int xPos = GET_X_LPARAM(lParam) - leftMargin;
+	if (xPos > 0 && xPos < mapWidth) {
+		int yPos = GET_Y_LPARAM(lParam) - getRibbonHeight();
+		int mouseI = yPos / cellSize;
+		int mouseJ = xPos / cellSize;
+		numbers[mouseI][mouseJ] = (numbers[mouseI][mouseJ] + 1) % brushes.size();
 
-	::InvalidateRect( handle, &rect, TRUE );
+		::InvalidateRect(handle, &rect, TRUE);
+	}
 }
 
 // Static method to create an instance of the object.
