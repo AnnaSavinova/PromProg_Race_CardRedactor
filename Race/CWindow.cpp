@@ -3,9 +3,9 @@
 #include <fstream>
 #include <Commdlg.h>
 #include <atlbase.h>
-
-extern HRESULT InitRibbon(HWND hWindowFrame);
-extern void DestroyRibbon();
+#include <uiribbon.h>
+#include "CCommandHandler.h"
+#include "Ribbon.h"
 
 static LPCWSTR szWindowClass = L"CWindow";
 
