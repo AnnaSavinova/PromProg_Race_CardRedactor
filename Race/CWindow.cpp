@@ -29,6 +29,7 @@ bool CWindow::Create()
 		CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT, NULL, NULL, ::GetModuleHandle( 0 ), this );
 	InitRibbon( handle );
 	::UpdateWindow( handle );
+	StartNewGame();
 	return ( handle != 0 );
 }
 
@@ -43,6 +44,7 @@ void CWindow::Initialize()
 			}
 		}
 	}
+
 	OnSize();
 }
 
@@ -63,7 +65,7 @@ CWindow::CWindow()
 	loadedFromFile = false;
 	m_cRef = 1;
 	m_pCommandHandler = NULL;
-	StartNewGame();
+
 }
 
 CWindow::~CWindow()
@@ -106,14 +108,37 @@ void CWindow::OnDestroy()
 	::PostQuitMessage( 0 );
 }
 
+UINT32 getRibbonHeight()
+{
+	UINT32 ribbonHeight;
+	HRESULT hr = E_FAIL;
+	IUIRibbon* pRibbon;
+	hr = g_pFramework->GetView(0, IID_PPV_ARGS(&pRibbon));
+	if (SUCCEEDED(hr)) {
+		UINT32 uRibbonHeight = 0;
+		hr = pRibbon->GetHeight(&uRibbonHeight);
+		if (SUCCEEDED(hr)) {
+			ribbonHeight = uRibbonHeight;
+		}
+		pRibbon->Release();
+	}
+	if (FAILED(hr)) {
+		ribbonHeight = 0;
+	}
+
+	return ribbonHeight;
+}
+
+
 void CWindow::OnSize()
 {
 	RECT rect;
 	RECT windowRect;
 	::GetClientRect( handle, &rect );
 	::GetWindowRect( handle, &windowRect );
+	UINT32 ribbonHeight = getRibbonHeight();
 	int width = rect.right - rect.left;
-	int height = rect.bottom - rect.top;
+	int height = rect.bottom - rect.top - ribbonHeight;
 	int windowWidth = windowRect.right - windowRect.left;
 	int windowHeight = windowRect.bottom - windowRect.top;
 	int diffHeight = windowHeight - height;
@@ -125,6 +150,7 @@ void CWindow::OnSize()
 	::InvalidateRect( handle, &rect, TRUE );
 }
 
+
 void CWindow::OnPaint()
 {
 	PAINTSTRUCT ps;
@@ -132,16 +158,18 @@ void CWindow::OnPaint()
 
 	RECT rect;
 	::GetClientRect( handle, &rect );
+	
+	UINT32 ribbonHeight = getRibbonHeight(); 
 
 	int width = rect.right - rect.left;
-	int height = rect.bottom - rect.top;
+	int height = rect.bottom - rect.top - ribbonHeight;
 
 	HDC backbuffDC = ::CreateCompatibleDC( hdc );
-	HBITMAP backbuffer = ::CreateCompatibleBitmap( hdc, width, height );
+	HBITMAP backbuffer = ::CreateCompatibleBitmap( hdc, width, height + ribbonHeight );
 	HGDIOBJ oldBitmap = ::SelectObject( backbuffDC, backbuffer );
 
 	::SelectObject( backbuffDC, backgroundBrush );
-	::Rectangle( backbuffDC, 0, 0, width, height );
+	::Rectangle( backbuffDC, 0, 0, width, height + ribbonHeight );
 
 	for ( int i = 0; i < sizeY; i++ ) {
 		for ( int j = 0; j < sizeX; j++ ) {
@@ -155,7 +183,7 @@ void CWindow::OnPaint()
 			::Rectangle( backbuffDC, rect.left, rect.top, rect.right, rect.bottom );
 		}
 	}
-	::BitBlt( hdc, 0, 0, width, height, backbuffDC, 0, 0, SRCCOPY );
+	::BitBlt( hdc, 0, ribbonHeight, width, height, backbuffDC, 0, 0, SRCCOPY );
 
 	::SelectObject( backbuffDC, oldBitmap );
 	::DeleteObject( backbuffer );
@@ -333,7 +361,7 @@ void CWindow::OnClick( LPARAM lParam )
 	int height = rect.bottom - rect.top;
 
 	int xPos = GET_X_LPARAM( lParam );
-	int yPos = GET_Y_LPARAM( lParam );
+	int yPos = GET_Y_LPARAM( lParam ) - getRibbonHeight();
 	int mouseI = yPos / cellSize;
 	int mouseJ = xPos / cellSize;
 	numbers[mouseI][mouseJ] = ( numbers[mouseI][mouseJ] + 1 ) % brushes.size();
