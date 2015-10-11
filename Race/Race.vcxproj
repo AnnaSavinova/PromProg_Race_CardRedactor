@@ -108,8 +108,12 @@
     <Image Include="New32.bmp" />
     <Image Include="Open16.bmp" />
     <Image Include="Open32.bmp" />
+    <Image Include="Road.bmp" />
     <Image Include="Save16.bmp" />
     <Image Include="Save32.bmp" />
+    <Image Include="Start.bmp" />
+    <Image Include="Tree.bmp" />
+    <Image Include="wall.bmp" />
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="toolbar.xml">

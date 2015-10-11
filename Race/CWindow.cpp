@@ -44,6 +44,8 @@ CWindow::CWindow()
     brushes.push_back( ::CreatePatternBrush( road ) );
     HBITMAP start = ::LoadBitmap( hInst, MAKEINTRESOURCE( IDB_START ) );
     brushes.push_back( ::CreatePatternBrush( start ) );
+	HBITMAP wall = ::LoadBitmap( hInst, MAKEINTRESOURCE( IDB_WALL ) );
+	brushes.push_back( ::CreatePatternBrush( wall ) );
 
     m_cRef = 1;
     m_pCommandHandler = NULL;

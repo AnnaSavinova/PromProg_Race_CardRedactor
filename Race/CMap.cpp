@@ -1,7 +1,7 @@
 #include "stdafx.h"
 #include "CMap.h"
 
-CMap::CMap() : sizeX( 20 ), sizeY( 15 ), colorsNumber( 3 )
+CMap::CMap() : sizeX( 20 ), sizeY( 15 ), colorsNumber( 4 )
 {}
 
 CMap::~CMap()
@@ -66,7 +66,7 @@ void CMap::RestartMap()
 
 	const int ROAD = 1;
 	const int FOREST = 0;
-	const int WALL = 2;
+	const int WALL = 3;
 
 	for ( int i = 0; i < sizeY; i++ ) {
 		numbers[i].resize( sizeX ); // now forest is everywhere
