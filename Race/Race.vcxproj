@@ -77,6 +77,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="CCommandHandler.h" />
+    <ClInclude Include="CMap.h" />
     <ClInclude Include="CWindow.h" />
     <ClInclude Include="Resource.h" />
     <ClInclude Include="Ribbon.h" />
@@ -85,6 +86,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="CCommandHandler.cpp" />
+    <ClCompile Include="CMap.cpp" />
     <ClCompile Include="CWindow.cpp" />
     <ClCompile Include="Race.cpp" />
     <ClCompile Include="stdafx.cpp" />

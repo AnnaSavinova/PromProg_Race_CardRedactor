@@ -17,3 +17,5 @@
 #include <atlcom.h>
 #include <memory>
 #include <UIRibbon.h>
+#include <fstream>
+#include <string>
