@@ -2,6 +2,7 @@
 #include <string>
 #include <fstream>
 #include <Commdlg.h>
+#include <algorithm>
 
 static LPCWSTR szWindowClass = L"CWindow";
 
@@ -95,11 +96,8 @@ void CWindow::OnSize()
     int windowWidth = windowRect.right - windowRect.left;
     int windowHeight = windowRect.bottom - windowRect.top;
     int diffHeight = windowHeight - height;
-    int diffWidth = windowWidth - width;
-    if( ( height / sizeY ) > 30 ) {
-        cellSize = height / sizeY;
-    }
-    ::SetWindowPos( handle, NULL, windowRect.left, windowRect.top, diffWidth + cellSize * sizeX, diffHeight + cellSize * sizeY, NULL );
+    cellSize = height / sizeY;
+    ::SetWindowPos( handle, NULL, windowRect.left, windowRect.top, windowWidth, diffHeight + cellSize * sizeY, NULL );
     ::InvalidateRect( handle, &rect, TRUE );
 }
 
@@ -114,6 +112,8 @@ void CWindow::OnPaint()
     int width = rect.right - rect.left;
     int height = rect.bottom - rect.top;
 
+    int leftMargin = ( width - cellSize * sizeX ) / 2;
+
     HDC backbuffDC = ::CreateCompatibleDC( hdc );
     HBITMAP backbuffer = ::CreateCompatibleBitmap( hdc, width, height );
     HGDIOBJ oldBitmap = ::SelectObject( backbuffDC, backbuffer );
@@ -124,9 +124,9 @@ void CWindow::OnPaint()
     for( int i = 0; i < sizeY; i++ ) {
         for( int j = 0; j < sizeX; j++ ) {
             RECT rect;
-            rect.left = j * cellSize;
+            rect.left = leftMargin + j * cellSize;
             rect.top = i * cellSize;
-            rect.right = ( j + 1 ) * cellSize;
+            rect.right = leftMargin + ( j + 1 ) * cellSize;
             rect.bottom = ( i + 1 ) * cellSize;
 
             ::SelectObject( backbuffDC, brushes[numbers[i][j]] );
@@ -310,13 +310,18 @@ void CWindow::OnClick( LPARAM lParam )
     int width = rect.right - rect.left;
     int height = rect.bottom - rect.top;
 
-    int xPos = GET_X_LPARAM( lParam );
-    int yPos = GET_Y_LPARAM( lParam );
-    int mouseI = yPos / cellSize;
-    int mouseJ = xPos / cellSize;
-    numbers[mouseI][mouseJ] = ( numbers[mouseI][mouseJ] + 1 ) % brushes.size();
+    int mapWidth = cellSize * sizeX;
+    int leftMargin = ( width - mapWidth ) / 2;
 
-    ::InvalidateRect( handle, &rect, TRUE );
+    int xPos = GET_X_LPARAM( lParam ) - leftMargin;
+    if( xPos > 0 && xPos < mapWidth ) {
+        int yPos = GET_Y_LPARAM( lParam );
+        int mouseI = yPos / cellSize;
+        int mouseJ = xPos / cellSize;
+        numbers[mouseI][mouseJ] = ( numbers[mouseI][mouseJ] + 1 ) % brushes.size();
+
+        ::InvalidateRect( handle, &rect, TRUE );
+    }
 }
 
 LRESULT __stdcall CWindow::windowProc( HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam )
